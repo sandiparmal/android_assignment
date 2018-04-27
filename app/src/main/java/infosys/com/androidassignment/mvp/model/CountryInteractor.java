@@ -1,4 +1,4 @@
-package infosys.com.androidassignment.mvp;
+package infosys.com.androidassignment.mvp.model;
 
 /**
  * Created by sandy on 4/27/2018.

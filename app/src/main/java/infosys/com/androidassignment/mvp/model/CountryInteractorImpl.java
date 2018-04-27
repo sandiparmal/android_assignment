@@ -1,4 +1,6 @@
-package infosys.com.androidassignment.mvp;
+package infosys.com.androidassignment.mvp.model;
+
+import infosys.com.androidassignment.mvp.model.CountryInteractor;
 
 /**
  * Created by sandy on 4/27/2018.

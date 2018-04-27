@@ -1,4 +1,7 @@
-package infosys.com.androidassignment.mvp;
+package infosys.com.androidassignment.mvp.presenter;
+
+import infosys.com.androidassignment.mvp.view.CountryContract;
+import infosys.com.androidassignment.mvp.model.CountryInteractor;
 
 /**
  * Created by sandy on 4/27/2018.
@@ -39,6 +42,7 @@ public class CountryPresenterImpl implements CountryContract.CountryPresenter, C
     @Override
     public void onFetchingSuccess(String message) {
         countryView.hideProgress();
+        countryView.updateListView();
     }
 
     /**

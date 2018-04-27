@@ -1,4 +1,4 @@
-package infosys.com.androidassignment.mvp;
+package infosys.com.androidassignment.mvp.view;
 
 import infosys.com.androidassignment.mvp.base.BasePresenter;
 import infosys.com.androidassignment.mvp.base.BaseView;

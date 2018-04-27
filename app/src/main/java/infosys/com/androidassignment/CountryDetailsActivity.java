@@ -1,11 +1,13 @@
 package infosys.com.androidassignment;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
-import infosys.com.androidassignment.mvp.CountryContract;
+import infosys.com.androidassignment.fragments.CountryDetailsFragment;
 import infosys.com.androidassignment.mvp.base.BaseActivity;
 
-public class CountryDetailsActivity extends BaseActivity implements CountryContract.CountryView {
+public class CountryDetailsActivity extends BaseActivity {
 
 
     /**
@@ -25,40 +27,15 @@ public class CountryDetailsActivity extends BaseActivity implements CountryContr
      */
     @Override
     protected void init(Bundle savedState) {
-
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentById(R.id.fragmentContainer);
+        if (fragment == null) {
+            fragment = new CountryDetailsFragment();
+            fm.beginTransaction()
+                    .add(R.id.fragmentContainer, fragment)
+                    .commit();
+        }
     }
 
-    /**
-     * Show progress dialog while fetching details
-     */
-    @Override
-    public void showProgress() {
 
-    }
-
-    /**
-     * hide progress dialog when fetching complete or error occur
-     */
-    @Override
-    public void hideProgress() {
-
-    }
-
-    /**
-     * Show error message if any exception occur
-     *
-     * @param errorMessage String Message
-     */
-    @Override
-    public void showErrorMessage(String errorMessage) {
-
-    }
-
-    /**
-     * Update the list items in list view through adapter
-     */
-    @Override
-    public void updateListView() {
-
-    }
 }
