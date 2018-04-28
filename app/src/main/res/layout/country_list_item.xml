@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,13 +9,13 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
-        android:layout_marginStart="@dimen/left_right_margin_12dp"
         android:layout_marginEnd="@dimen/left_right_margin_12dp"
-        android:textSize="@dimen/title_text_size"
-        android:textStyle="bold"
+        android:layout_marginStart="@dimen/left_right_margin_12dp"
+        android:layout_marginTop="@dimen/top_bottom_margin"
+        android:text=""
         android:textColor="@color/color_title"
-        android:layout_marginTop="@dimen/top_bottom_margin"/>
+        android:textSize="@dimen/title_text_size"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/description"
@@ -24,19 +23,31 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/title"
         android:layout_below="@+id/title"
-        android:layout_marginTop="@dimen/left_right_margin_12dp"
         android:layout_marginEnd="@dimen/left_right_margin_12dp"
-        android:layout_toStartOf="@+id/image"
-        android:textSize="@dimen/description_text_size"
+        android:layout_marginTop="@dimen/left_right_margin_12dp"
+        android:layout_toStartOf="@+id/imageFrameLayout"
+        android:text=""
         android:textColor="@color/description_black"
-        android:text="" />
+        android:textSize="@dimen/description_text_size" />
 
-
-    <ImageView
-        android:id="@+id/image"
+    <FrameLayout
+        android:id="@+id/imageFrameLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/title"
-        android:layout_alignTop="@+id/description"
-        android:src="@drawable/ic_launcher_foreground" />
+        android:layout_alignTop="@+id/description">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_launcher_foreground" />
+
+        <ProgressBar
+            android:id="@+id/loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+    </FrameLayout>
 </RelativeLayout>

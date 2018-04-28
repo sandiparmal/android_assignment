@@ -1,5 +1,10 @@
 package infosys.com.androidassignment.mvp.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import infosys.com.androidassignment.retrofit.data.Country;
+
 /**
  * Created by sandy on 4/27/2018.
  */
@@ -12,9 +17,9 @@ public interface CountryInteractor {
     interface OnFetchFinishListener {
         /**
          * Trigger when country details fetching success
-         * @param message String
+         * @param countryDetails Country
          */
-        void onFetchingSuccess(String message);
+        void onFetchingSuccess(ArrayList<Country> countryDetails);
 
         /**
          *  Trigger when country details fetching failure

@@ -7,17 +7,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import infosys.com.androidassignment.R;
-import infosys.com.androidassignment.mvp.model.data.Country;
+import infosys.com.androidassignment.retrofit.data.Country;
 
 /**
  * Created by sandy on 4/27/2018.
@@ -59,6 +63,8 @@ public class CountryRecyclerAdapter extends RecyclerView.Adapter<CountryRecycler
         TextView mDescription;
         @BindView(R.id.image)
         ImageView mImage;
+        @BindView(R.id.loading)
+        ProgressBar loadingProgressBar;
 
         public CountryHolder(View itemView) {
             super(itemView);
@@ -76,11 +82,24 @@ public class CountryRecyclerAdapter extends RecyclerView.Adapter<CountryRecycler
 
         public void bindData(Country country) {
             mCountry = country;
-            if(country.getImageHref()!= null){
-                mImage.setVisibility(View.VISIBLE);
-                Glide.with(context)
+            if (country.getImageHref() != null) {
+
+                Picasso.get()
                         .load(country.getImageHref())
-                        .into(mImage);
+                        .into(mImage, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                loadingProgressBar.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+                                loadingProgressBar.setVisibility(View.GONE);
+                                //mImage
+                                //      .setBackgroundResource(R.drawable.small_logo);
+                            }
+
+                        });
             } else {
                 mImage.setVisibility(View.GONE);
             }

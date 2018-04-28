@@ -9,16 +9,12 @@ public interface BaseView {
     /**
      * Show progress dialog while fetching details
      */
-    void showProgress();
+    void showWait();
 
     /**
      * hide progress dialog when fetching complete or error occur
      */
-    void hideProgress();
+    void hideWait();
 
-    /**
-     * Show error message if any exception occur
-     * @param errorMessage String Message
-     */
-    void showErrorMessage(String errorMessage);
+
 }

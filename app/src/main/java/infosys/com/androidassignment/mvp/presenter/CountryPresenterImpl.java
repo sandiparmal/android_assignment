@@ -1,7 +1,11 @@
 package infosys.com.androidassignment.mvp.presenter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import infosys.com.androidassignment.mvp.view.CountryContract;
 import infosys.com.androidassignment.mvp.model.CountryInteractor;
+import infosys.com.androidassignment.retrofit.data.Country;
 
 /**
  * Created by sandy on 4/27/2018.
@@ -37,12 +41,12 @@ public class CountryPresenterImpl implements CountryContract.CountryPresenter, C
     /**
      * Trigger when country details fetching success
      *
-     * @param message String
+     * @param countryList Country
      */
     @Override
-    public void onFetchingSuccess(String message) {
+    public void onFetchingSuccess(ArrayList<Country> countryList) {
         countryView.hideProgress();
-        countryView.updateListView();
+        countryView.onGetDataSuccess(countryList);
     }
 
     /**
@@ -53,6 +57,6 @@ public class CountryPresenterImpl implements CountryContract.CountryPresenter, C
     @Override
     public void onFetchingFailure(String message) {
         countryView.hideProgress();
-        countryView.showErrorMessage(message);
+        countryView.onGetDataFailure(message);
     }
 }

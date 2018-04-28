@@ -1,4 +1,4 @@
-package infosys.com.androidassignment.mvp.model.data;
+package infosys.com.androidassignment.retrofit.data;
 
 /**
  * Created by sandy on 4/27/2018.
