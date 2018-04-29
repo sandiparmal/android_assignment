@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import infosys.com.androidassignment.R;
 import infosys.com.androidassignment.adapter.CountryRecyclerAdapter;
 import infosys.com.androidassignment.retrofit.data.Country;
@@ -30,11 +32,13 @@ import infosys.com.androidassignment.utils.SimpleDividerItemDecoration;
 
 public class CountryDetailsFragment extends Fragment implements CountryContract.CountryView{
 
-    public static final String EXTENDED_URL = "s/2iodh4vg0eortkl/facts.json";
-    private CountryPresenterImpl countryPresenter;
+    private static final String EXTENDED_URL = "https://dl.dropboxusercontent.com";
+    private CountryPresenterImpl mCountryPresenter;
+    private Unbinder mUnbinder;
 
-    @BindView(R.id.title) RecyclerView mCountryDetailsRecyclerView;
+    @BindView(R.id.country_details_recycler_view) RecyclerView mCountryDetailsRecyclerView;
     @BindView(R.id.progress) ProgressBar mProgressBar;
+    @BindView(R.id.simpleSwipeRefreshLayout) SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -43,14 +47,27 @@ public class CountryDetailsFragment extends Fragment implements CountryContract.
         View view = inflater.inflate(R.layout.country_details_list_fragment, container, false);
 
         // binding ButterKnife
-        ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
 
         // Initialize Presenter
-        countryPresenter = new CountryPresenterImpl(this, new CountryInteractorImpl());
+        mCountryPresenter = new CountryPresenterImpl(this, new CountryInteractorImpl());
 
         // add item Decoration for divider
         mCountryDetailsRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getResources()));
         mCountryDetailsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mCountryDetailsRecyclerView.setHasFixedSize(true);
+        mCountryDetailsRecyclerView.setDrawingCacheEnabled(true);
+        mCountryDetailsRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+
+        // implement setOnRefreshListener event on SwipeRefreshLayout
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // cancel the Visual indication of a refresh
+                mSwipeRefreshLayout.setRefreshing(false);
+                initiateFetchRequest();
+            }
+        });
 
         initiateFetchRequest();
         return view;
@@ -58,7 +75,7 @@ public class CountryDetailsFragment extends Fragment implements CountryContract.
 
 
     private void initiateFetchRequest() {
-        countryPresenter.fetchCountryDetails(EXTENDED_URL);
+        mCountryPresenter.fetchCountryDetails(EXTENDED_URL);
     }
 
     /**
@@ -95,7 +112,18 @@ public class CountryDetailsFragment extends Fragment implements CountryContract.
     @Override
     public void onGetDataSuccess(ArrayList<Country> countryList) {
 
+        mCountryDetailsRecyclerView.setItemViewCacheSize(countryList.size());
         CountryRecyclerAdapter adapter = new CountryRecyclerAdapter(getActivity(), countryList);
         mCountryDetailsRecyclerView.setAdapter(adapter);
+    }
+
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+
+        // Butter Knife returns an Unbinder instance when we call bind to do this for you. Call its unbind method in onDestroy
+        mUnbinder.unbind();
+
+        // Destroy presenter which holding current view
+        mCountryPresenter.onDestroy();
     }
 }

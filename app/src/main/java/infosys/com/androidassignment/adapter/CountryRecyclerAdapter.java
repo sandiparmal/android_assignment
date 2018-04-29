@@ -3,6 +3,7 @@ package infosys.com.androidassignment.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Callback;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -56,36 +58,37 @@ public class CountryRecyclerAdapter extends RecyclerView.Adapter<CountryRecycler
     }
 
     public class CountryHolder extends RecyclerView.ViewHolder {
-        private Country mCountry;
         @BindView(R.id.title)
-        TextView mTitle;
+        TextView mTvTitle;
         @BindView(R.id.description)
-        TextView mDescription;
+        TextView mTvDescription;
         @BindView(R.id.image)
         ImageView mImage;
         @BindView(R.id.loading)
         ProgressBar loadingProgressBar;
+        private View itemView;
 
         public CountryHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context,
-                            mCountry.getTitle() + " clicked!", Toast.LENGTH_SHORT)
-                            .show();
-                }
-            });
+            this.itemView = itemView;
         }
 
+
         public void bindData(Country country) {
-            mCountry = country;
+
+            if (TextUtils.isEmpty(country.getTitle()) && TextUtils.isEmpty(country.getDescription())
+                    && TextUtils.isEmpty(country.getTitle())) {
+                itemView.setVisibility(View.GONE);
+            } else {
+                itemView.setVisibility(View.VISIBLE);
+            }
+            loadingProgressBar.setVisibility(View.VISIBLE);
             if (country.getImageHref() != null) {
 
                 Picasso.get()
                         .load(country.getImageHref())
+
                         .into(mImage, new Callback() {
                             @Override
                             public void onSuccess() {
@@ -101,11 +104,23 @@ public class CountryRecyclerAdapter extends RecyclerView.Adapter<CountryRecycler
 
                         });
             } else {
+                loadingProgressBar.setVisibility(View.GONE);
                 mImage.setVisibility(View.GONE);
+
             }
 
-            mTitle.setText(country.getTitle());
-            mDescription.setText(country.getDescription());
+            if (TextUtils.isEmpty(country.getTitle())) {
+                mTvTitle.setVisibility(View.GONE);
+            } else {
+                mTvTitle.setText(country.getTitle());
+            }
+
+            if (TextUtils.isEmpty(country.getDescription())) {
+                mTvDescription.setVisibility(View.GONE);
+            } else {
+                mTvDescription.setText(country.getDescription());
+            }
+
         }
     }
 }

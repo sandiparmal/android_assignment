@@ -34,7 +34,7 @@ public class CountryPresenterImpl implements CountryContract.CountryPresenter, C
 
     @Override
     public void fetchCountryDetails(String extendedURL) {
-        countryView.showProgress();
+        countryView.showWait();
         countryInteractor.fetchCountryDetails(extendedURL, this);
     }
 
@@ -45,7 +45,7 @@ public class CountryPresenterImpl implements CountryContract.CountryPresenter, C
      */
     @Override
     public void onFetchingSuccess(ArrayList<Country> countryList) {
-        countryView.hideProgress();
+        countryView.hideWait();
         countryView.onGetDataSuccess(countryList);
     }
 
@@ -56,7 +56,7 @@ public class CountryPresenterImpl implements CountryContract.CountryPresenter, C
      */
     @Override
     public void onFetchingFailure(String message) {
-        countryView.hideProgress();
+        countryView.hideWait();
         countryView.onGetDataFailure(message);
     }
 }

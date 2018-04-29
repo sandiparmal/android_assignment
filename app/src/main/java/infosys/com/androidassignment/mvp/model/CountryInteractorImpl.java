@@ -1,5 +1,7 @@
 package infosys.com.androidassignment.mvp.model;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +26,11 @@ public class CountryInteractorImpl implements CountryInteractor {
 
 
     private Retrofit retrofit;
-    private CompositeDisposable mCompositeDisposable;
+    /**
+     * Collects all subscriptions to unsubscribe later
+     */
+    @NonNull
+    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     /**
      * Request network call and get data from REST url
