@@ -1,3 +1,4 @@
+
 package infosys.com.androidassignment.adapter;
 
 import android.content.Context;
@@ -10,12 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Callback;
-import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -26,9 +23,25 @@ import infosys.com.androidassignment.R;
 import infosys.com.androidassignment.retrofit.data.Country;
 
 /**
- * Created by sandy on 4/27/2018.
- */
-
+ * Copyright 2018 (C) <Infosys Limited>
+ *
+ * Created on : 27-04-2018
+ * Author     : Sandeep Armal
+ *
+ *-----------------------------------------------------------------------------
+ * Revision History
+ *-----------------------------------------------------------------------------
+ *
+ * VERSION     AUTHOR/      DESCRIPTION OF CHANGE
+ *               DATE                RFC NO
+ *-----------------------------------------------------------------------------
+ * 1.0     | Sandeep Armal  | Initial Create.
+ *         | 27-04-2018     |
+ *---------|----------------|---------------------------------------------------
+ *         | Sandeep Armal  | Replace Glide with Picasso
+ *  1.1    | 28-04-2018     | Added Progress Bar while loading images
+ *---------|--------------- |---------------------------------------------------
+ **/
 public class CountryRecyclerAdapter extends RecyclerView.Adapter<CountryRecyclerAdapter.CountryHolder> {
     private ArrayList<Country> countryDetailsList;
     private Context context;
@@ -41,6 +54,8 @@ public class CountryRecyclerAdapter extends RecyclerView.Adapter<CountryRecycler
     @NonNull
     @Override
     public CountryHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        // inflate view
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.country_list_item, parent, false);
         return new CountryHolder(view);
@@ -48,6 +63,7 @@ public class CountryRecyclerAdapter extends RecyclerView.Adapter<CountryRecycler
 
     @Override
     public void onBindViewHolder(@NonNull CountryHolder holder, int position) {
+        // get country by current position
         Country s = countryDetailsList.get(position);
         holder.bindData(s);
     }
@@ -58,6 +74,8 @@ public class CountryRecyclerAdapter extends RecyclerView.Adapter<CountryRecycler
     }
 
     public class CountryHolder extends RecyclerView.ViewHolder {
+
+        // bind views using ButterKnife
         @BindView(R.id.title)
         TextView mTvTitle;
         @BindView(R.id.description)
@@ -68,27 +86,32 @@ public class CountryRecyclerAdapter extends RecyclerView.Adapter<CountryRecycler
         ProgressBar loadingProgressBar;
         private View itemView;
 
-        public CountryHolder(View itemView) {
+        private CountryHolder(View itemView) {
             super(itemView);
+
+            // initiate ButterKnife
             ButterKnife.bind(this, itemView);
             this.itemView = itemView;
         }
 
 
-        public void bindData(Country country) {
+        private void bindData(Country country) {
 
+            // check if title, description and image url is null
             if (TextUtils.isEmpty(country.getTitle()) && TextUtils.isEmpty(country.getDescription())
                     && TextUtils.isEmpty(country.getTitle())) {
                 itemView.setVisibility(View.GONE);
             } else {
                 itemView.setVisibility(View.VISIBLE);
             }
+
+            // show loading progress bar while loading image
             loadingProgressBar.setVisibility(View.VISIBLE);
             if (country.getImageHref() != null) {
 
+                // initiate picasso to load image
                 Picasso.get()
                         .load(country.getImageHref())
-
                         .into(mImage, new Callback() {
                             @Override
                             public void onSuccess() {
@@ -104,17 +127,20 @@ public class CountryRecyclerAdapter extends RecyclerView.Adapter<CountryRecycler
 
                         });
             } else {
+                // image url is null, hide progress bar and image view
                 loadingProgressBar.setVisibility(View.GONE);
                 mImage.setVisibility(View.GONE);
 
             }
 
+            // check if title is null
             if (TextUtils.isEmpty(country.getTitle())) {
                 mTvTitle.setVisibility(View.GONE);
             } else {
                 mTvTitle.setText(country.getTitle());
             }
 
+            // check if description is null
             if (TextUtils.isEmpty(country.getDescription())) {
                 mTvDescription.setVisibility(View.GONE);
             } else {

@@ -1,8 +1,22 @@
 package infosys.com.androidassignment.retrofit.data;
 
 /**
- * Created by sandy on 4/27/2018.
- */
+ * Copyright 2018 (C) <Infosys Limited>
+ * <p>
+ * Created on : 27-04-2018
+ * Author     : Sandeep Armal
+ * <p>
+ * -----------------------------------------------------------------------------
+ * Revision History
+ * -----------------------------------------------------------------------------
+ * <p>
+ * VERSION     AUTHOR/      DESCRIPTION OF CHANGE
+ *              DATE                RFC NO
+ * -----------------------------------------------------------------------------
+ * 1.0     | Sandeep Armal  | Initial Create.
+ *         | 27-04-2018     |
+ * --------|----------------|---------------------------------------------------
+ **/
 
 public class Country {
 

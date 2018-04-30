@@ -1,13 +1,27 @@
 package infosys.com.androidassignment.mvp.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import infosys.com.androidassignment.retrofit.data.Country;
+import infosys.com.androidassignment.retrofit.data.CountryResponse;
 
 /**
- * Created by sandy on 4/27/2018.
- */
+ * Copyright 2018 (C) <Infosys Limited>
+ *
+ * Created on : 27-04-2018
+ * Author     : Sandeep Armal
+ *
+ *-----------------------------------------------------------------------------
+ * Revision History
+ *-----------------------------------------------------------------------------
+ *
+ * VERSION     AUTHOR/      DESCRIPTION OF CHANGE
+ *               DATE                RFC NO
+ *-----------------------------------------------------------------------------
+ * 1.0     | Sandeep Armal  | Initial Create.
+ *         | 27-04-2018     |
+ *---------|----------------|---------------------------------------------------
+ *         | Sandeep Armal  | Modified Methods Signature
+ *  1.1    | 28-04-2018     |
+ *---------|--------------- |---------------------------------------------------
+ **/
 
 public interface CountryInteractor {
 
@@ -17,12 +31,14 @@ public interface CountryInteractor {
     interface OnFetchFinishListener {
         /**
          * Trigger when country details fetching success
+         *
          * @param countryDetails Country
          */
-        void onFetchingSuccess(ArrayList<Country> countryDetails);
+        void onFetchingSuccess(CountryResponse countryDetails);
 
         /**
-         *  Trigger when country details fetching failure
+         * Trigger when country details fetching failure
+         *
          * @param message String
          */
         void onFetchingFailure(String message);
@@ -30,6 +46,7 @@ public interface CountryInteractor {
 
     /**
      * Request network call and get data from REST url
+     *
      * @param URL String
      */
     void fetchCountryDetails(String URL, CountryInteractor.OnFetchFinishListener onFetchListener);

@@ -7,6 +7,23 @@ import android.support.v4.app.FragmentManager;
 import infosys.com.androidassignment.fragments.CountryDetailsFragment;
 import infosys.com.androidassignment.mvp.base.BaseActivity;
 
+/**
+ * Copyright 2018 (C) <Infosys Limited>
+ *
+ * Created on : 27-04-2018
+ * Author     : Sandeep Armal
+ *
+ *-----------------------------------------------------------------------------
+ * Revision History
+ *-----------------------------------------------------------------------------
+ *
+ * VERSION     AUTHOR/      DESCRIPTION OF CHANGE
+ *               DATE                RFC NO
+ *-----------------------------------------------------------------------------
+ * 1.0     | Sandeep Armal  | Initial Create.
+ *         | 27-04-2018     |
+ *---------|----------------|---------------------------------------------------
+ **/
 public class CountryDetailsActivity extends BaseActivity {
 
 
@@ -31,6 +48,8 @@ public class CountryDetailsActivity extends BaseActivity {
         Fragment fragment = fm.findFragmentById(R.id.fragmentContainer);
         if (fragment == null) {
             fragment = new CountryDetailsFragment();
+
+            // adding fragments
             fm.beginTransaction()
                     .add(R.id.fragmentContainer, fragment)
                     .commit();

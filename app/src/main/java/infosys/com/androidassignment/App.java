@@ -1,32 +1,38 @@
-package infosys.com.androidassignment.retrofit.service;
+package infosys.com.androidassignment;
 
-import infosys.com.androidassignment.retrofit.data.CountryResponse;
-import io.reactivex.Observable;
-import retrofit2.http.GET;
+import android.app.Application;
+import android.content.Context;
 
 /**
  * Copyright 2018 (C) <Infosys Limited>
  *
- * Created on : 28-04-2018
+ * Created on : 30-04-2018
  * Author     : Sandeep Armal
  *
  *-----------------------------------------------------------------------------
- * Revision History (Release 1.0.0.0)
+ * Revision History
  *-----------------------------------------------------------------------------
  *
  * VERSION     AUTHOR/      DESCRIPTION OF CHANGE
  *               DATE                RFC NO
  *-----------------------------------------------------------------------------
  * 1.0     | Sandeep Armal  | Initial Create.
- *         | 28-04-2018     |
+ *         | 30-04-2018     |
  *---------|----------------|---------------------------------------------------
  **/
-public interface NetworkService {
 
-    // retrofit get call
-    @GET("/s/2iodh4vg0eortkl/facts.json")
-    Observable<CountryResponse> getCountryDetails();
+public class App extends Application {
 
+    private static Context context;
 
+    // Fet application context
+    public static Context getContext() {
+        return context;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        context = getApplicationContext();
+    }
 }
-

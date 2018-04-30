@@ -1,8 +1,22 @@
 package infosys.com.androidassignment.utils;
 
 /**
- * Created by sandy on 4/27/2018.
- */
+ * Copyright 2018 (C) <Infosys Limited>
+ *
+ * Created on : 27-04-2018
+ * Author     : Sandeep Armal
+ *
+ *-----------------------------------------------------------------------------
+ * Revision History
+ *-----------------------------------------------------------------------------
+ *
+ * VERSION     AUTHOR/      DESCRIPTION OF CHANGE
+ *               DATE                RFC NO
+ *-----------------------------------------------------------------------------
+ * 1.0     | Sandeep Armal  | Initial Create.
+ *         | 27-04-2018     |
+ *---------|----------------|---------------------------------------------------
+ **/
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -19,6 +33,12 @@ public class SimpleDividerItemDecoration extends RecyclerView.ItemDecoration {
         mDivider = resources.getDrawable(R.drawable.divider);
     }
 
+    /**
+     *  Draw Divider between recycler list view items
+     * @param c Canvas
+     * @param parent Recycler View
+     * @param state  State
+     */
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
         int left = parent.getPaddingLeft();
         int right = parent.getWidth() - parent.getPaddingRight();

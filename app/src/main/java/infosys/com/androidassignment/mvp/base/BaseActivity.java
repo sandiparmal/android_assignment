@@ -7,10 +7,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 
 /**
- * Created by Sandeep Armal on 4/27/2018.
- */
-
-public abstract class BaseActivity extends AppCompatActivity{
+ * Copyright 2018 (C) <Infosys Limited>
+ *
+ * Created on : 27-04-2018
+ * Author     : Sandeep Armal
+ *
+ *-----------------------------------------------------------------------------
+ * Revision History
+ *-----------------------------------------------------------------------------
+ *
+ * VERSION     AUTHOR/      DESCRIPTION OF CHANGE
+ *               DATE                RFC NO
+ *-----------------------------------------------------------------------------
+ * 1.0     | Sandeep Armal  | Initial Create.
+ *         | 27-04-2018     |
+ * --------|----------------|---------------------------------------------------
+ **/
+public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,5 +44,5 @@ public abstract class BaseActivity extends AppCompatActivity{
     /**
      * Initialisations
      */
-    protected abstract void init( Bundle savedState);
+    protected abstract void init(Bundle savedState);
 }
