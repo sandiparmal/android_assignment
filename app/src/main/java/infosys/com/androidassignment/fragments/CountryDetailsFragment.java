@@ -72,7 +72,8 @@ public class CountryDetailsFragment extends Fragment implements CountryContract.
         mUnbinder = ButterKnife.bind(this, view);
 
         // Initialize Presenter
-        mCountryPresenter = new CountryPresenterImpl(this, new CountryInteractorImpl());
+        mCountryPresenter = new CountryPresenterImpl( new CountryInteractorImpl());
+        mCountryPresenter.attach(this);
 
         // add item Decoration for divider
         mCountryDetailsRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getResources()));
@@ -105,7 +106,8 @@ public class CountryDetailsFragment extends Fragment implements CountryContract.
         ConnectivityUtils objConnectivityUtils = new ConnectivityUtils();
 
         // check if network is available
-        if (objConnectivityUtils.isNetworkAvailable(getActivity())) {
+        boolean isNetwork = objConnectivityUtils.isNetworkAvailable(getActivity());
+        if (isNetwork) {
             mCountryPresenter.fetchCountryDetails(EXTENDED_URL);
         } else {
             // network is not available
@@ -169,6 +171,6 @@ public class CountryDetailsFragment extends Fragment implements CountryContract.
         mUnbinder.unbind();
 
         // Destroy presenter which holding current view
-        mCountryPresenter.onDestroy();
+        mCountryPresenter.detach();
     }
 }

@@ -27,25 +27,12 @@ import infosys.com.androidassignment.retrofit.data.CountryResponse;
 public class CountryPresenterImpl implements CountryContract.CountryPresenter, CountryInteractor.OnFetchFinishListener {
 
     // initialization
-    private CountryContract.CountryView countryView;
+    public CountryContract.CountryView countryView;
     private final CountryInteractor countryInteractor;
 
-    public CountryPresenterImpl(CountryContract.CountryView countryView, CountryInteractor countryInteractor) {
+    public CountryPresenterImpl(CountryInteractor countryInteractor) {
 
-        // assigning objects
-        this.countryView = countryView;
         this.countryInteractor = countryInteractor;
-    }
-
-    /**
-     * Destroy presenter which holding connection between view and model
-     */
-    @Override
-    public void onDestroy() {
-
-        if (countryView != null) {
-            countryView = null;
-        }
     }
 
     /**
@@ -81,5 +68,25 @@ public class CountryPresenterImpl implements CountryContract.CountryPresenter, C
     public void onFetchingFailure(String message) {
         countryView.hideWait();
         countryView.onGetDataFailure(message);
+    }
+
+    /**
+     * Called when the view is created and wants to attach its presenter
+     *
+     * @param view
+     */
+    @Override
+    public void attach(CountryContract.CountryView view) {
+        countryView = view;
+    }
+
+    /**
+     * Called when the view is destroyed to get rid of its presenter
+     */
+    @Override
+    public void detach() {
+        if (countryView != null) {
+            countryView = null;
+        }
     }
 }

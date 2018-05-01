@@ -34,6 +34,9 @@ public class CountryContract {
          */
         void onGetDataSuccess(CountryResponse countryResponse);
 
+        /**
+         * Show toast on data fetching failure
+         */
         void onGetDataFailure(String message);
     }
 

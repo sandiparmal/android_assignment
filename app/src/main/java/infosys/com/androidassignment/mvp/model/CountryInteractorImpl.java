@@ -54,11 +54,7 @@ public class CountryInteractorImpl implements CountryInteractor {
 
         try{
             //configure Retrofit using Retrofit Builder
-            NetworkService networkService = new Retrofit.Builder()
-                    .baseUrl(URL)
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build().create(NetworkService.class);
+            NetworkService networkService = App.getClient(URL).create(NetworkService.class);
 
             mCompositeDisposable.add(networkService.getCountryDetails()
                     .subscribeOn(Schedulers.io()) // “work” on io thread

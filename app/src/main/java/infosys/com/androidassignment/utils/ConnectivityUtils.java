@@ -40,7 +40,6 @@ public class ConnectivityUtils {
                 NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
                 return activeNetworkInfo != null && activeNetworkInfo.isConnected();
             } else {
-
                 // connectivity manager is null return false
                 return false;
             }

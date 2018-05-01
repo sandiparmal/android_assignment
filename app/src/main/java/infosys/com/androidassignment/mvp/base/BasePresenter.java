@@ -1,5 +1,7 @@
 package infosys.com.androidassignment.mvp.base;
 
+import infosys.com.androidassignment.mvp.view.CountryContract;
+
 /**
  * Copyright 2018 (C) <Infosys Limited>
  *
@@ -16,10 +18,15 @@ package infosys.com.androidassignment.mvp.base;
  * 1.0     | Sandeep Armal  | Initial Create.
  *         | 27-04-2018     |
  **/
-public interface BasePresenter {
+public interface BasePresenter<CountryView> {
 
     /**
-     * Destroy presenter which holding connection between view and model
+     * Called when the view is created and wants to attach its presenter
      */
-    void onDestroy();
+    void attach(CountryContract.CountryView view);
+
+    /**
+     * Called when the view is destroyed to get rid of its presenter
+     */
+    void detach();
 }
