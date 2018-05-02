@@ -91,8 +91,7 @@ dependencies {
 
     // dependencies for local unit tests
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
-    testImplementation "org.mockito:mockito-core:$rootProject.mockitoVersion"
-    testAnnotationProcessor "com.google.dagger:dagger-compiler:$rootProject.dagger2Version"
+
     // Testing-only dependencies
     androidTestCompile "com.android.support.test:runner:$rootProject.runnerVersion";
     androidTestCompile "com.android.support.test:rules:$rootProject.rulesVersion";
@@ -100,11 +99,6 @@ dependencies {
     androidTestCompile 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
     // Force usage of dependencies in the test app, since it is internally used by the runner module.
     androidTestCompile "com.android.support:support-annotations:$rootProject.supportLibraryVersion";
-    androidTestCompile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion";
-
-    // UI Testing
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion"
-    androidTestImplementation "com.android.support.test.espresso:espresso-intents:$rootProject.espressoVersion"
     androidTestImplementation "org.mockito:mockito-core:$rootProject.mockitoVersion"
-    androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$rootProject.dagger2Version"
+
 }

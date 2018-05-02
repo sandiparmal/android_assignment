@@ -23,7 +23,6 @@ import infosys.com.androidassignment.mvp.presenter.CountryPresenterImpl;
 import infosys.com.androidassignment.mvp.view.CountryContract;
 import infosys.com.androidassignment.retrofit.data.CountryResponse;
 import infosys.com.androidassignment.utils.ConnectivityUtils;
-import infosys.com.androidassignment.utils.SimpleDividerItemDecoration;
 
 /**
  * Copyright 2018 (C) <Infosys Limited>
@@ -61,6 +60,7 @@ public class CountryDetailsFragment extends Fragment implements CountryContract.
     ProgressBar mProgressBar;
     @BindView(R.id.simpleSwipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
+    private CountryRecyclerAdapter mAdapter = null;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -75,12 +75,16 @@ public class CountryDetailsFragment extends Fragment implements CountryContract.
         mCountryPresenter = new CountryPresenterImpl( new CountryInteractorImpl());
         mCountryPresenter.attach(this);
 
-        // add item Decoration for divider
-        mCountryDetailsRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getResources()));
+        // Set Layout Manager
         mCountryDetailsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        // avoid re downloading images and data
         mCountryDetailsRecyclerView.setHasFixedSize(true);
         mCountryDetailsRecyclerView.setDrawingCacheEnabled(true);
         mCountryDetailsRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+
+        // setting empty adapter
+        mCountryDetailsRecyclerView.setAdapter(mAdapter);
 
         // implement setOnRefreshListener event on SwipeRefreshLayout
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -156,8 +160,8 @@ public class CountryDetailsFragment extends Fragment implements CountryContract.
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(countryResponse.title);
 
             mCountryDetailsRecyclerView.setItemViewCacheSize(countryResponse.rows.size());
-            CountryRecyclerAdapter adapter = new CountryRecyclerAdapter(getActivity(), countryResponse.rows);
-            mCountryDetailsRecyclerView.setAdapter(adapter);
+            mAdapter = new CountryRecyclerAdapter(getActivity(), countryResponse.rows);
+            mCountryDetailsRecyclerView.setAdapter(mAdapter);
         } catch (Exception e) {
             e.printStackTrace();
         }
