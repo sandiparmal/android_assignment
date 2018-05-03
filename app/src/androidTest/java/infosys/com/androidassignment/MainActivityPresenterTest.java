@@ -2,8 +2,10 @@ package infosys.com.androidassignment;
 
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -17,9 +19,13 @@ import infosys.com.androidassignment.retrofit.data.CountryResponse;
 import infosys.com.androidassignment.retrofit.service.NetworkService;
 import io.reactivex.Observable;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -38,23 +44,33 @@ import static org.mockito.Mockito.when;
  * 1.0     | Sandeep Armal  | Initial Create.
  *         | 01-05-2018     |
  * --------|----------------|---------------------------------------------------
+ * 1.1     | Sandeep Armal  | Verified some more methods
+ *         | 03-05-2018     |
+ * --------|----------------|---------------------------------------------------
  **/
 @RunWith(AndroidJUnit4.class)
 public class MainActivityPresenterTest extends AbstractTest {
 
+    private CountryPresenterImpl objCountryPresenter;
+    private CountryContract.CountryView countryView;
+
+    @Before
+    public void setUp() {
+        this.objCountryPresenter = spy(new CountryPresenterImpl(new CountryInteractorImpl()));
+        countryView = mock(CountryContract.CountryView.class);
+    }
+
     @Test
     public void testAttach() {
-        CountryPresenterImpl objCountryPresenter = new CountryPresenterImpl(new CountryInteractorImpl());
         assertNull(objCountryPresenter.countryView);
 
-        objCountryPresenter.attach(mock(CountryContract.CountryView.class));
+        objCountryPresenter.attach(countryView);
         assertNotNull(objCountryPresenter.countryView);
     }
 
     @Test
     public void testDetach() {
-        CountryPresenterImpl objCountryPresenter = new CountryPresenterImpl(new CountryInteractorImpl());
-        objCountryPresenter.attach(mock(CountryContract.CountryView.class));
+        objCountryPresenter.attach(countryView);
         assertNotNull(objCountryPresenter.countryView);
 
         objCountryPresenter.detach();
@@ -63,32 +79,33 @@ public class MainActivityPresenterTest extends AbstractTest {
 
     @Test
     public void testFetchCountry() {
-        CountryPresenterImpl objCountryPresenter = new CountryPresenterImpl(new CountryInteractorImpl());
-        CountryContract.CountryView countryView = mock(CountryContract.CountryView.class);
 
-        //Test null view is not crashing at least
-        //objCountryPresenter.fetchCountryDetails("https://dl.dropboxusercontent.com");
-
-        /// attach view to presenter
+        // attach view to presenter
         objCountryPresenter.attach(countryView);
 
-        //Test null text
-        objCountryPresenter.fetchCountryDetails(null);
+        // Mock Network Services
+        NetworkService networkService = Mockito.mock(NetworkService.class);
 
-        // test with url
-        objCountryPresenter.fetchCountryDetails("https://dl.dropboxusercontent.com");
-
-        CountryResponse searchResults = getFakeSearchResults();
+        // get mock results
+        CountryResponse countryResponse = getMockCountryResults();
 
         //Test ok response
-        NetworkService networkService = Mockito.mock(NetworkService.class);
-        when(networkService.getCountryDetails()).thenReturn(Observable.just(searchResults));
+        when(networkService.getCountryDetails()).thenReturn(Observable.just(countryResponse));
         objCountryPresenter.fetchCountryDetails("https://dl.dropboxusercontent.com");
         waitFor(50);
+        verify(countryView, atLeastOnce()).showWait();
+        waitFor(2500);
+        ArgumentCaptor<CountryResponse> argument = ArgumentCaptor.forClass(CountryResponse.class);
+        verify(objCountryPresenter).onFetchingSuccess(argument.capture());
+        waitFor(50);
+        verify(countryView, atLeastOnce()).hideWait();
+        waitFor(50);
+        verify(countryView).onGetDataSuccess(argument.capture());
+        //assertEquals(countryResponse, argument.getValue());
 
     }
 
-    private CountryResponse getFakeSearchResults() {
+    private CountryResponse getMockCountryResults() {
 
         CountryResponse objCountryResponse = new CountryResponse();
         objCountryResponse.title = "About India";
