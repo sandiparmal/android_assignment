@@ -1,12 +1,15 @@
 package infosys.com.androidassignment.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,10 +64,13 @@ public class CountryDetailsFragment extends Fragment implements CountryContract.
     @BindView(R.id.simpleSwipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     private CountryRecyclerAdapter mAdapter = null;
+    private static final String TAG = "CountryDetailsFragment";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        Log.d(TAG, "onCreateView");
 
         View view = inflater.inflate(R.layout.country_details_list_fragment, container, false);
 
@@ -171,6 +177,7 @@ public class CountryDetailsFragment extends Fragment implements CountryContract.
     public void onDestroyView() {
         super.onDestroyView();
 
+        Log.d(TAG, "onDestroyView");
         // Butter Knife returns an Unbinder instance when we call bind to do this for you. Call its unbind method in onDestroy
         mUnbinder.unbind();
 

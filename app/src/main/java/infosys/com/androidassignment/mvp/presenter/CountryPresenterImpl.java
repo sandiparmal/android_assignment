@@ -55,8 +55,10 @@ public class CountryPresenterImpl implements CountryContract.CountryPresenter, C
      */
     @Override
     public void onFetchingSuccess(CountryResponse countryResponse) {
-        countryView.hideWait();
-        countryView.onGetDataSuccess(countryResponse);
+        if(countryView != null){
+            countryView.hideWait();
+            countryView.onGetDataSuccess(countryResponse);
+        }
     }
 
     /**
@@ -66,14 +68,17 @@ public class CountryPresenterImpl implements CountryContract.CountryPresenter, C
      */
     @Override
     public void onFetchingFailure(String message) {
-        countryView.hideWait();
-        countryView.onGetDataFailure(message);
+        if(countryView != null){
+            countryView.hideWait();
+            countryView.onGetDataFailure(message);
+        }
+
     }
 
     /**
      * Called when the view is created and wants to attach its presenter
      *
-     * @param view
+     * @param view view
      */
     @Override
     public void attach(CountryContract.CountryView view) {
@@ -88,5 +93,6 @@ public class CountryPresenterImpl implements CountryContract.CountryPresenter, C
         if (countryView != null) {
             countryView = null;
         }
+        countryInteractor.clearCompositeDisposable();
     }
 }

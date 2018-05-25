@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -64,8 +63,16 @@ public class CountryRecyclerAdapter extends RecyclerView.Adapter<CountryRecycler
     @Override
     public void onBindViewHolder(@NonNull CountryHolder holder, int position) {
         // get country by current position
-        Country s = countryDetailsList.get(position);
-        holder.bindData(s);
+        Country country = countryDetailsList.get(position);
+
+        /* calculate middle element position */
+        int middlePosition = countryDetailsList.size() / 2;
+        if (position == middlePosition ) {
+            holder.setIsInTheMiddle(true);
+        } else {
+            holder.setIsInTheMiddle(false);
+        }
+        holder.bindData(country);
     }
 
     @Override
@@ -85,6 +92,9 @@ public class CountryRecyclerAdapter extends RecyclerView.Adapter<CountryRecycler
         @BindView(R.id.loading)
         ProgressBar loadingProgressBar;
         private View itemView;
+        // We'll use this field to showcase matching the holder from the test.
+        private boolean mIsInTheMiddle = false;
+        private String middleItemText;
 
         private CountryHolder(View itemView) {
             super(itemView);
@@ -92,6 +102,14 @@ public class CountryRecyclerAdapter extends RecyclerView.Adapter<CountryRecycler
             // initiate ButterKnife
             ButterKnife.bind(this, itemView);
             this.itemView = itemView;
+        }
+
+        public boolean getIsInTheMiddle() {
+            return mIsInTheMiddle;
+        }
+
+        void setIsInTheMiddle(boolean isInTheMiddle) {
+            mIsInTheMiddle = isInTheMiddle;
         }
 
 
@@ -106,8 +124,9 @@ public class CountryRecyclerAdapter extends RecyclerView.Adapter<CountryRecycler
             }
 
             // show loading progress bar while loading image
-            loadingProgressBar.setVisibility(View.VISIBLE);
-            if (country.getImageHref() != null) {
+            String imageUrl = country.getImageHref();
+            if (imageUrl != null) {
+                loadingProgressBar.setVisibility(View.VISIBLE);
 
                 // initiate picasso to load image
                 Picasso.get()
@@ -121,16 +140,13 @@ public class CountryRecyclerAdapter extends RecyclerView.Adapter<CountryRecycler
                             @Override
                             public void onError(Exception e) {
                                 loadingProgressBar.setVisibility(View.GONE);
-                                //mImage
-                                //      .setBackgroundResource(R.drawable.small_logo);
+                                mImage.setVisibility(View.GONE);
                             }
 
                         });
             } else {
-                // image url is null, hide progress bar and image view
-                loadingProgressBar.setVisibility(View.GONE);
+                // image url is null, hide image view
                 mImage.setVisibility(View.GONE);
-
             }
 
             // check if title is null

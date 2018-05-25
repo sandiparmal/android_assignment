@@ -50,4 +50,9 @@ public interface CountryInteractor {
      * @param URL String
      */
     void fetchCountryDetails(String URL, CountryInteractor.OnFetchFinishListener onFetchListener);
+
+    /**
+     * Dispose CompositeDisposable
+     */
+    void clearCompositeDisposable();
 }
