@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,6 +93,10 @@ public class CountryRecyclerAdapter extends RecyclerView.Adapter<CountryRecycler
         @BindView(R.id.loading)
         ProgressBar loadingProgressBar;
         private View itemView;
+        // We'll use this field to showcase matching the holder from the test.
+        private boolean mIsInTheMiddle = false;
+        private String middleItemText;
+
         // We'll use this field to showcase matching the holder from the test.
         private boolean mIsInTheMiddle = false;
         private String middleItemText;
