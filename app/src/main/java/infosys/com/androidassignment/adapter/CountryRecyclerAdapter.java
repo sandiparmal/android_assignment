@@ -21,6 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import infosys.com.androidassignment.R;
 import infosys.com.androidassignment.retrofit.data.Country;
+import okhttp3.OkHttpClient;
 
 /**
  * Copyright 2018 (C) <Infosys Limited>
@@ -93,7 +94,6 @@ public class CountryRecyclerAdapter extends RecyclerView.Adapter<CountryRecycler
         @BindView(R.id.loading)
         ProgressBar loadingProgressBar;
         private View itemView;
-        // We'll use this field to showcase matching the holder from the test.
 
         // We'll use this field to showcase matching the holder from the test.
         private boolean mIsInTheMiddle = false;
@@ -124,7 +124,9 @@ public class CountryRecyclerAdapter extends RecyclerView.Adapter<CountryRecycler
             } else {
                 itemView.setVisibility(View.VISIBLE);
             }
-
+            if(country.getTitle().equalsIgnoreCase("Flag")){
+                Log.d("CountryRecyclerAdapter", "Flag");
+            }
             // show loading progress bar while loading image
             String imageUrl = country.getImageHref();
             if (imageUrl != null) {
