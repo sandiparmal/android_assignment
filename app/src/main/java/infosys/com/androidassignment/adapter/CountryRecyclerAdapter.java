@@ -94,12 +94,9 @@ public class CountryRecyclerAdapter extends RecyclerView.Adapter<CountryRecycler
         ProgressBar loadingProgressBar;
         private View itemView;
         // We'll use this field to showcase matching the holder from the test.
-        private boolean mIsInTheMiddle = false;
-        private String middleItemText;
 
         // We'll use this field to showcase matching the holder from the test.
         private boolean mIsInTheMiddle = false;
-        private String middleItemText;
 
         private CountryHolder(View itemView) {
             super(itemView);
